@@ -1,0 +1,10 @@
+#menuButton {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-image: url(img/menu_bars.png);
+	width: 32px;
+	height: 32px;
+	opacity: 0.85;
+	background-color: rgba(255, 255, 255, 0.4);
+}

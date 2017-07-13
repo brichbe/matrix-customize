@@ -2,15 +2,27 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<link rel="stylesheet" href="matrix.css">
+<link rel="stylesheet" href="jquery-ui.min.css">
 <script type="text/javascript" src="js/matrix.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/jscolor.min.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 <title>Matrix - Customized</title>
 </head>
 <body style="margin: 0">
 	<canvas id="matrixCanvas"></canvas>
-	<script type="text/javascript">
-		var canvas = document.getElementById("matrixCanvas");
-		window.runAnimation(canvas, 65, 26, false, 33);
+	<button id="menuButton"
+		class="ui-button ui-widget ui-corner-all ui-button-icon-only"
+		title="Configure Options"></button>
+	<script>
+  $(document).ready(function(){
+    $('#menuButton').click(function(){
+       var canvas = document.getElementById("matrixCanvas");
+	window.runAnimation(canvas, 65, 26, false, 33);
+    });
+  });
 </script>
 </body>
 </html>
