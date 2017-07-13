@@ -16,13 +16,45 @@
 	<button id="menuButton"
 		class="ui-button ui-widget ui-corner-all ui-button-icon-only"
 		title="Configure Options"></button>
+
 	<script>
-  $(document).ready(function(){
+	$( function() {
+	$( "#configDialog" ).dialog({
+    	autoOpen: true,
+      	resizable: false,
+      	height: "auto",
+      	width: 400,
+      	modal: true,
+      	show: {
+        	effect: "fold",
+        	duration: 500
+      	},
+      	hide: {
+        	effect: "fade",
+        	duration: 500
+      	},
+      	buttons: {
+        	"Apply Settings": function() {
+        		var canvas = document.getElementById("matrixCanvas");
+				window.runAnimation(canvas, 65, 26, false, 33);
+          		$( this ).dialog( "close" );
+        },
+        	"Cancel": function() {
+          		$( this ).dialog( "close" );
+        }
+      }
+    });
+    
     $('#menuButton').click(function(){
-       var canvas = document.getElementById("matrixCanvas");
-	window.runAnimation(canvas, 65, 26, false, 33);
+    	$( function() {
+    		$( "#configDialog" ).dialog("open");
+  		});
     });
   });
 </script>
+
+	<div id="configDialog" title="Configure Settings">
+		<p>TEMP</p>
+	</div>
 </body>
 </html>
