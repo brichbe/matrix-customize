@@ -38,10 +38,19 @@
         		var canvas = document.getElementById("matrixCanvas");
 				window.runAnimation(canvas, 65, 26, false, 33);
           		$( this ).dialog( "close" );
-        },
+        	},
         	"Cancel": function() {
           		$( this ).dialog( "close" );
-        }
+        	}
+      },
+      beforeClose: function( event, ui ) {
+      		$( "#configDialogWarningText" ).text("");
+      		if (!window.isAnimationActive()) {
+      			$( this ).parent().effect("shake");
+      			$( "#configDialogWarningText" ).text("Settings must be applied to begin.");
+      			return false;
+      		}
+      		return true;
       }
     });
     
@@ -54,7 +63,7 @@
 </script>
 
 	<div id="configDialog" title="Configure Settings">
-		<p>TEMP</p>
+		<p id="configDialogWarningText"></p>
 	</div>
 </body>
 </html>

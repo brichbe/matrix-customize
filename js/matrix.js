@@ -1,5 +1,9 @@
 var animateIntervalId;
 
+function isAnimationActive() {
+	return (animateIntervalId != null);
+}
+
 function runAnimation(canvas, firstLetter, letterRange, randomColor,
 		animateRate) {
 	if (animateIntervalId) {
