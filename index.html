@@ -38,6 +38,8 @@
         		var canvas = document.getElementById("matrixCanvas");
         		var initialLetter = $( "#initialLetterSpinner" ).spinner("value");
         		var textRgb = document.getElementById('textColorButton').jscolor.toRGBString();
+        		var isRandomColorSelected = $( "[name='randomColorCB']" ).is( ":checked" );
+        		textRgb = isRandomColorSelected ? null : textRgb;
         		var animateRate = $( "#animateRateSpinner" ).spinner("value");
 				window.runAnimation(canvas, initialLetter, 26, textRgb, animateRate);
           		$( this ).dialog( "close" );
@@ -87,6 +89,12 @@
     });
     $( "#animateRateSpinner" ).spinner("value", 33);
     
+    $( "[name='randomColorCB']").on( "change", function(){
+    	var isSelected = $( "[name='randomColorCB']" ).is( ":checked" );
+    	document.getElementById('textColorButton').disabled = isSelected;
+    	document.getElementById('textColorButton').style.opacity = isSelected ? 0.35 : 1;
+    });
+    
     $('#menuButton').click(function(){
     	$( function() {
     		$( "#configDialog" ).dialog("open");
@@ -113,6 +121,10 @@
 			<button id="textColorButton"
 				class="jscolor {valueElement:null,value:'66ccff',closable:true,closeText:'Dismiss'}"
 				style="width: 40px; height: 24px"></button>
+			<label for="randomColorCB"
+				style="display: inline-block; margin-left: 12px">Use Random
+				? <input type="checkbox" name="randomColorCB" id="useRandomColorCB">
+			</label>
 		</div>
 	</div>
 </body>
