@@ -36,7 +36,9 @@
       	buttons: {
         	"Apply Settings": function() {
         		var canvas = document.getElementById("matrixCanvas");
-				window.runAnimation(canvas, 65, 26, false, 33);
+        		var initialLetter = $( "#initialLetterSpinner" ).spinner("value");
+        		var animateRate = $( "#animateRateSpinner" ).spinner("value");
+				window.runAnimation(canvas, initialLetter, 26, false, animateRate);
           		$( this ).dialog( "close" );
         	},
         	"Cancel": function() {
@@ -53,6 +55,36 @@
       		return true;
       }
     });
+    $( "#initialLetterSpinner" ).spinner({
+      spin: function( event, ui ) {
+        if ( ui.value > 255 ) {
+          $( this ).spinner( "value", 33 );
+          return false;
+        } else if ( ui.value < 33 ) {
+          $( this ).spinner( "value", 255 );
+          return false;
+        }
+        $( "#initialLetterPreview" ).text("( " + String.fromCharCode($( this ).spinner("value")) + " )");
+      },
+      stop: function(event, ui) {
+      		$( "#initialLetterPreview" ).text("( " + String.fromCharCode($( this ).spinner("value")) + " )");
+      }
+    });
+    $( "#initialLetterSpinner" ).spinner("value", 65);
+    $( "#initialLetterPreview" ).text("( " + String.fromCharCode(65) + " )");
+    
+    $( "#animateRateSpinner" ).spinner({
+      spin: function( event, ui ) {
+        if ( ui.value > 500 ) {
+          $( this ).spinner( "value", 10 );
+          return false;
+        } else if ( ui.value < 10 ) {
+          $( this ).spinner( "value", 500 );
+          return false;
+        }
+      }
+    });
+    $( "#animateRateSpinner" ).spinner("value", 33);
     
     $('#menuButton').click(function(){
     	$( function() {
@@ -64,6 +96,20 @@
 
 	<div id="configDialog" title="Configure Settings">
 		<p id="configDialogWarningText"></p>
+		<div>
+			<p style="display: inline-block; margin-right: 34px">Initial Character:</p>
+			<input id="initialLetterSpinner" name="value" style="width: 40px"></input>
+			<p id="initialLetterPreview"
+				style="display: inline-block; margin-left: 12px; font-weight: bold"></p>
+		</div>
+		<div>
+			<p style="display: inline-block;">Animation Rate (ms):</p>
+			<input id="animateRateSpinner" name="value" style="width: 40px"></input>
+		</div>
+		<div>
+			<p style="display: inline-block; margin-right: 74px">Text Color:</p>
+			<button id="textColorButton" style="width: 40px; height: 24px"></button>
+		</div>
 	</div>
 </body>
 </html>
