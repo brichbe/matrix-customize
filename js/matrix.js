@@ -4,7 +4,7 @@ function isAnimationActive() {
 	return (animateIntervalId != null);
 }
 
-function runAnimation(canvas, firstLetter, letterRange, randomColor,
+function runAnimation(canvas, firstLetter, letterRange, colorRgb,
 		animateRate) {
 	if (animateIntervalId) {
 		clearInterval(animateIntervalId);
@@ -22,11 +22,9 @@ function runAnimation(canvas, firstLetter, letterRange, randomColor,
 	animateIntervalId = setInterval(function() {
 		context.fillStyle = "rgba(0,0,0,0.05)";
 		context.fillRect(0, 0, width, height);
-		context.fillStyle = "rgba(0,255,0,1)";
+		
 		columns = columns.map(function(value, index) {
-			if (randomColor) {
-				context.fillStyle = window.getRandomColor();
-			}
+			context.fillStyle = colorRgb != null ? colorRgb : window.getRandomColor();
 			var r = Math.random();
 			context.fillText(String.fromCharCode(Math.floor(firstLetter + r
 					* letterRange)), index * 30, value);
