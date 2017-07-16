@@ -37,11 +37,12 @@
         	"Apply Settings": function() {
         		var canvas = document.getElementById("matrixCanvas");
         		var initialLetter = $( "#initialLetterSpinner" ).spinner("value");
+        		var letterRange = $("#characterRangeSpinner").spinner("value")
         		var textRgb = document.getElementById('textColorButton').jscolor.toRGBString();
         		var isRandomColorSelected = $( "[name='randomColorCB']" ).is( ":checked" );
         		textRgb = isRandomColorSelected ? null : textRgb;
         		var animateRate = $( "#animateRateSpinner" ).spinner("value");
-				window.runAnimation(canvas, initialLetter, 26, textRgb, animateRate);
+				window.runAnimation(canvas, initialLetter, letterRange, textRgb, animateRate);
           		$( this ).dialog( "close" );
         	},
         	"Cancel": function() {
@@ -58,6 +59,7 @@
       		return true;
       }
     });
+    $( "#characterRangeControlgroup" ).controlgroup();
     $( "#initialLetterSpinner" ).spinner({
       spin: function( event, ui ) {
         if ( ui.value > 255 ) {
@@ -67,14 +69,30 @@
           $( this ).spinner( "value", 255 );
           return false;
         }
-        $( "#initialLetterPreview" ).text("( " + String.fromCharCode($( this ).spinner("value")) + " )");
+        $.updateCharacterRangePreview();
       },
       stop: function(event, ui) {
-      		$( "#initialLetterPreview" ).text("( " + String.fromCharCode($( this ).spinner("value")) + " )");
+      		$.updateCharacterRangePreview();
       }
     });
     $( "#initialLetterSpinner" ).spinner("value", 65);
-    $( "#initialLetterPreview" ).text("( " + String.fromCharCode(65) + " )");
+    $( "#characterRangeSpinner" ).spinner({
+      spin: function( event, ui ) {
+        if ( ui.value > 255 ) {
+          $( this ).spinner( "value", 0 );
+          return false;
+        } else if ( ui.value < 0 ) {
+          $( this ).spinner( "value", 255 );
+          return false;
+        }
+        $.updateCharacterRangePreview();
+      },
+      stop: function(event, ui) {
+      		$.updateCharacterRangePreview();
+      }
+    });
+    $( "#characterRangeSpinner" ).spinner("value", 25);
+    $.updateCharacterRangePreview();
     
     $( "#animateRateSpinner" ).spinner({
       spin: function( event, ui ) {
@@ -104,17 +122,33 @@
     	$(this).effect('bounce', null, 10);
     });
   });
+  
+  $.updateCharacterRangePreview = function() {
+  		var initialLetter = $("#initialLetterSpinner").spinner("value");
+  		var letterRange = $("#characterRangeSpinner").spinner("value");
+  		$( "#initialLetterPreview" ).html("( " + String.fromCharCode(initialLetter) + " ... " + String.fromCharCode(initialLetter + letterRange) + " )");
+  	};
 </script>
 
 	<div id="configDialog" title="Configure Settings">
 		<p id="configDialogWarningText"></p>
-		<div>
-			<p style="display: inline-block; margin-right: 34px">Initial
-				Character:</p>
-			<input id="initialLetterSpinner" name="value" style="width: 40px"></input>
-			<p id="initialLetterPreview"
-				style="display: inline-block; margin-left: 12px; font-weight: bold"></p>
-		</div>
+		<fieldset>
+			<legend>Character Selection</legend>
+			<div class="characterRangeControlgroup">
+				<div>
+					<p style="display: inline-block; margin-right: 34px">Initial
+						Character:</p>
+					<input id="initialLetterSpinner" name="value" style="width: 40px"></input>
+					<p id="initialLetterPreview"
+						style="display: inline-block; margin-left: 12px; font-weight: bold; color: gray; font-size: larger; position: relative; top: 28px; left: 0px; font-style: italic;"></p>
+				</div>
+				<div>
+					<p style="display: inline-block; margin-right: 24px">Character
+						Range:</p>
+					<input id="characterRangeSpinner" name="value" style="width: 40px"></input>
+				</div>
+			</div>
+		</fieldset>
 		<div>
 			<p style="display: inline-block;">Animation Rate (ms):</p>
 			<input id="animateRateSpinner" name="value" style="width: 40px"></input>
