@@ -38,20 +38,20 @@
         		var canvas = document.getElementById("matrixCanvas");
         		var initialCharacter = $( "#initialCharacterSpinner" ).spinner("value");
         		if (initialCharacter == null) {
-        			$.displayWarning("An initial character must be chosen.");
+        			$.displayWarning("A starting character must be chosen.");
       				return false;
         		}
         		if (initialCharacter < 33 || initialCharacter > 255) {
-        			$.displayWarning("The initial character must be in the range of 33...255.");
+        			$.displayWarning("The starting character must be in the range of 33...255.");
       				return false;
         		}
         		var characterRange = $("#characterRangeSpinner").spinner("value");
         		if (characterRange == null) {
-        			$.displayWarning("A character range must be chosen.");
+        			$.displayWarning("A range size must be chosen.");
       				return false;
         		}
         		if (characterRange < 0 || characterRange > 255) {
-        			$.displayWarning("The character range must be in the range of 0...255.");
+        			$.displayWarning("The range size must be in the range of 0...255.");
       				return false;
         		}
         		var animateRate = $( "#animateRateSpinner" ).spinner("value");
@@ -154,6 +154,7 @@
   	
   	$.displayWarning = function(warnText) {
       	$( "#configDialog" ).parent().effect("shake");
+      	$( "#configDialogWarningText" ).effect("highlight");
       	$( "#configDialogWarningText" ).text(warnText);
   	};
 </script>
