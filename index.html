@@ -36,13 +36,37 @@
       	buttons: {
         	"Apply Settings": function() {
         		var canvas = document.getElementById("matrixCanvas");
-        		var initialLetter = $( "#initialLetterSpinner" ).spinner("value");
-        		var letterRange = $("#characterRangeSpinner").spinner("value")
+        		var initialCharacter = $( "#initialCharacterSpinner" ).spinner("value");
+        		if (initialCharacter == null) {
+        			$.displayWarning("An initial character must be chosen.");
+      				return false;
+        		}
+        		if (initialCharacter < 33 || initialCharacter > 255) {
+        			$.displayWarning("The initial character must be in the range of 33...255.");
+      				return false;
+        		}
+        		var characterRange = $("#characterRangeSpinner").spinner("value");
+        		if (characterRange == null) {
+        			$.displayWarning("A character range must be chosen.");
+      				return false;
+        		}
+        		if (characterRange < 0 || characterRange > 255) {
+        			$.displayWarning("The character range must be in the range of 0...255.");
+      				return false;
+        		}
+        		var animateRate = $( "#animateRateSpinner" ).spinner("value");
+        		if (animateRate == null) {
+        			$.displayWarning("An animation rate must be chosen.");
+      				return false;
+        		}
+        		if (animateRate < 10 || animateRate > 500) {
+        			$.displayWarning("The animation rate must be in the range of 10...500.");
+      				return false;
+        		}
         		var textRgb = document.getElementById('textColorButton').jscolor.toRGBString();
         		var isRandomColorSelected = $( "[name='randomColorCB']" ).is( ":checked" );
         		textRgb = isRandomColorSelected ? null : textRgb;
-        		var animateRate = $( "#animateRateSpinner" ).spinner("value");
-				window.runAnimation(canvas, initialLetter, letterRange, textRgb, animateRate);
+				window.runAnimation(canvas, initialCharacter, characterRange, textRgb, animateRate);
           		$( this ).dialog( "close" );
         	},
         	"Cancel": function() {
@@ -52,15 +76,14 @@
       beforeClose: function( event, ui ) {
       		$( "#configDialogWarningText" ).text("");
       		if (!window.isAnimationActive()) {
-      			$( this ).parent().effect("shake");
-      			$( "#configDialogWarningText" ).text("Settings must be applied to begin.");
+      			$.displayWarning("Settings must be applied to begin.");
       			return false;
       		}
       		return true;
       }
     });
     $( "#characterRangeControlgroup" ).controlgroup();
-    $( "#initialLetterSpinner" ).spinner({
+    $( "#initialCharacterSpinner" ).spinner({
       spin: function( event, ui ) {
         if ( ui.value > 255 ) {
           $( this ).spinner( "value", 33 );
@@ -75,7 +98,7 @@
       		$.updateCharacterRangePreview();
       }
     });
-    $( "#initialLetterSpinner" ).spinner("value", 65);
+    $( "#initialCharacterSpinner" ).spinner("value", 65);
     $( "#characterRangeSpinner" ).spinner({
       spin: function( event, ui ) {
         if ( ui.value > 255 ) {
@@ -124,9 +147,14 @@
   });
   
   $.updateCharacterRangePreview = function() {
-  		var initialLetter = $("#initialLetterSpinner").spinner("value");
-  		var letterRange = $("#characterRangeSpinner").spinner("value");
-  		$( "#initialLetterPreview" ).html("( " + String.fromCharCode(initialLetter) + " ... " + String.fromCharCode(initialLetter + letterRange) + " )");
+  		var initialCharacter = $("#initialCharacterSpinner").spinner("value");
+  		var characterRange = $("#characterRangeSpinner").spinner("value");
+  		$( "#initialCharacterPreview" ).html("( " + String.fromCharCode(initialCharacter) + " ... " + String.fromCharCode(initialCharacter + characterRange) + " )");
+  	};
+  	
+  	$.displayWarning = function(warnText) {
+      	$( "#configDialog" ).parent().effect("shake");
+      	$( "#configDialogWarningText" ).text(warnText);
   	};
 </script>
 
@@ -138,8 +166,9 @@
 				<div>
 					<p style="display: inline-block; margin-right: 34px">Initial
 						Character:</p>
-					<input id="initialLetterSpinner" name="value" style="width: 40px"></input>
-					<p id="initialLetterPreview"
+					<input id="initialCharacterSpinner" name="value"
+						style="width: 40px"></input>
+					<p id="initialCharacterPreview"
 						style="display: inline-block; margin-left: 12px; font-weight: bold; color: gray; font-size: larger; position: relative; top: 28px; left: 0px; font-style: italic;"></p>
 				</div>
 				<div>
@@ -149,19 +178,21 @@
 				</div>
 			</div>
 		</fieldset>
-		<div>
-			<p style="display: inline-block;">Animation Rate (ms):</p>
-			<input id="animateRateSpinner" name="value" style="width: 40px"></input>
-		</div>
-		<div>
-			<p style="display: inline-block; margin-right: 74px">Text Color:</p>
-			<button id="textColorButton"
-				class="jscolor {valueElement:null,value:'66ccff',closable:true,closeText:'Dismiss'}"
-				style="width: 40px; height: 24px"></button>
-			<label for="randomColorCB"
-				style="display: inline-block; margin-left: 12px">Use Random
-				? <input type="checkbox" name="randomColorCB" id="useRandomColorCB">
-			</label>
+		<div style="margin-left: 16px">
+			<div>
+				<p style="display: inline-block;">Animation Rate (ms):</p>
+				<input id="animateRateSpinner" name="value" style="width: 40px"></input>
+			</div>
+			<div>
+				<p style="display: inline-block; margin-right: 74px">Text Color:</p>
+				<button id="textColorButton"
+					class="jscolor {valueElement:null,value:'66ccff',closable:true,closeText:'Dismiss'}"
+					style="width: 40px; height: 24px"></button>
+				<label for="randomColorCB"
+					style="display: inline-block; margin-left: 12px">Use Random
+					? <input type="checkbox" name="randomColorCB" id="useRandomColorCB">
+				</label>
+			</div>
 		</div>
 	</div>
 </body>
