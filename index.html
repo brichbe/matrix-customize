@@ -161,36 +161,43 @@
 	<div id="configDialog" title="Configure Settings">
 		<p id="configDialogWarningText"></p>
 		<fieldset>
-			<legend>Character Selection</legend>
+			<legend>Character Range</legend>
 			<div class="characterRangeControlgroup">
 				<div>
-					<p style="display: inline-block; margin-right: 34px">Initial
+					<p style="display: inline-block; margin-right: 16px">Starting
 						Character:</p>
 					<input id="initialCharacterSpinner" name="value"
-						style="width: 40px"></input>
+						style="width: 40px"
+						title="Enter the decimal value of the initial ASCII character"></input>
 					<p id="initialCharacterPreview"
-						style="display: inline-block; margin-left: 12px; font-weight: bold; color: gray; font-size: larger; position: relative; top: 28px; left: 0px; font-style: italic;"></p>
+						style="display: inline-block; margin-left: 12px; font-weight: bold; color: gray; font-size: larger; position: relative; top: 28px; left: 0px; font-style: italic;"
+						title="The range of characters that will be displayed"></p>
 				</div>
 				<div>
-					<p style="display: inline-block; margin-right: 24px">Character
-						Range:</p>
-					<input id="characterRangeSpinner" name="value" style="width: 40px"></input>
+					<p style="display: inline-block; margin-right: 62px">Range
+						Size:</p>
+					<input id="characterRangeSpinner" name="value" style="width: 40px"
+						title="Enter the size of the character range to display"></input>
 				</div>
 			</div>
 		</fieldset>
 		<div style="margin-left: 16px">
 			<div>
 				<p style="display: inline-block;">Animation Rate (ms):</p>
-				<input id="animateRateSpinner" name="value" style="width: 40px"></input>
+				<input id="animateRateSpinner" name="value" style="width: 40px"
+					title="Enter the time delay between each step of the animation"></input>
 			</div>
 			<div>
-				<p style="display: inline-block; margin-right: 74px">Text Color:</p>
+				<p style="display: inline-block; margin-right: 32px">Character
+					Color:</p>
 				<button id="textColorButton"
 					class="jscolor {valueElement:null,value:'66ccff',closable:true,closeText:'Dismiss'}"
-					style="width: 40px; height: 24px"></button>
+					style="width: 40px; height: 24px"
+					title="Choose a color for the animated characters"></button>
 				<label for="randomColorCB"
 					style="display: inline-block; margin-left: 12px">Use Random
-					? <input type="checkbox" name="randomColorCB" id="useRandomColorCB">
+					? <input type="checkbox" name="randomColorCB" id="useRandomColorCB"
+					title="If selected, the animated characters will be drawn using randomized colors">
 				</label>
 			</div>
 		</div>
