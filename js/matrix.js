@@ -26,7 +26,7 @@ function runAnimation(canvas, firstLetter, letterRange, colorRgb,
 		columns = columns.map(function(value, index) {
 			context.fillStyle = colorRgb != null ? colorRgb : window.getRandomColor();
 			var r = Math.random();
-			context.fillText(String.fromCharCode(Math.floor(firstLetter + r
+			context.fillText(String.fromCharCode(Math.round(firstLetter + r
 					* letterRange)), index * 30, value);
 			value = (value * 1 + 30);
 			return value > 768 + r * 10000 ? 0 : value;
